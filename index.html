@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Booking System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f7fa;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #34495e;
+        }
+        input, select {
+            padding: 10px;
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .booking-list {
+            margin-top: 20px;
+        }
+        .booking-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .booking-item button {
+            background-color: #e74c3c;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        .booking-item button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Online Booking System</h1>
+        <div class="form-section">
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Enter your name">
+            <label for="service">Service:</label>
+            <select id="service">
+                <option value="Haircut">Haircut</option>
+                <option value="Manicure">Manicure</option>
+                <option value="Massage">Massage</option>
+            </select>
+            <label for="date">Date:</label>
+            <input type="date" id="date">
+            <label for="time">Time:</label>
+            <input type="time" id="time">
+            <button onclick="bookAppointment()">Book Appointment</button>
+        </div>
+        <div class="booking-list">
+            <h3>Your Bookings</h3>
+            <ul id="bookingList"></ul>
+        </div>
+    </div>
+    <script>
+        function bookAppointment() {
+            const name = document.getElementById('name').value.trim();
+            const service = document.getElementById('service').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+
+            if (!name || !date || !time) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            const bookingList = document.getElementById('bookingList');
+            const bookingItem = document.createElement('li');
+            bookingItem.className = 'booking-item';
+            bookingItem.innerHTML = `
+                <span>${name} - ${service} on ${date} at ${time}</span>
+                <button onclick="cancelBooking(this)">Cancel</button>
+            `;
+            bookingList.appendChild(bookingItem);
+
+            // Clear form
+            document.getElementById('name').value = '';
+            document.getElementById('date').value = '';
+            document.getElementById('time').value = '';
+        }
+
+        function cancelBooking(button) {
+            const bookingItem = button.parentElement;
+            bookingItem.remove();
+        }
+
+        // Add Enter key support for form submission
+        document.getElementById('name').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') bookAppointment();
+        });
+        document.getElementById('date').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') bookAppointment();
+        });
+        document.getElementById('time').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') bookAppointment();
+        });
+    </script>
+</body>
+</html>
